@@ -419,7 +419,7 @@ public class Euchre {
         }
             // Load and display the card image
             try {
-                String imagePath = "" + card.getSuit().toLowerCase() + "_" + card.getRank().toLowerCase() + ".png";
+                String imagePath = "Textures/" + card.getSuit().toLowerCase() + "_" + card.getRank().toLowerCase() + ".png";
                 File imageFile = new File(imagePath);
                 if (imageFile.exists()) {
                     BufferedImage cardImage = ImageIO.read(imageFile);
