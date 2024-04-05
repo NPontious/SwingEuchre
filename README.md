@@ -4,10 +4,10 @@ This README provides an overview of the rules for playing the popular card game 
 
 ## Game Start/Rules
 
-![Rules/Euchre Start](EuchreStart.png)
+![Euchre Start](Rules/EuchreStart.png)
 
 ## Game Rounds
 
-![Rules/Euchre Round](EuchreRound.png)
+![Euchre Round](Rules/EuchreRound.png)
 
 During the game rounds, players take turns playing their cards. The objective is to win as many tricks a possible.
