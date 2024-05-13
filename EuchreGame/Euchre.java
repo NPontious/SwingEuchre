@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -25,9 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Euchre {
-    //A disgusting amount of staic variables
+    //A disgusting amount of static variables
     public static final int NUM_PLAYERS = 4;
-    public static final int NUM_CARDS = 6;
     public static JCheckBox showHelp = new JCheckBox("Learning Mode");
     public static JPanel handPanel = new JPanel(new GridLayout(1,6));
     public static JPanel scorePanel = new JPanel(new GridLayout(1,7));
@@ -36,9 +36,9 @@ public class Euchre {
     public static JPanel trumpPanel = new JPanel();
     public static JPanel helpPanel = new JPanel(new GridBagLayout());
     public static GUI gui = new GUI();
-    public static ArrayList<Card> trick = new ArrayList<Card>();
-    public static ArrayList<Card> deck = new ArrayList<Card>();
-    public static ArrayList<Player> players = new ArrayList<Player>();
+    public static ArrayList<Card> trick = new ArrayList<>();
+    public static ArrayList<Card> deck = new ArrayList<>();
+    public static ArrayList<Player> players = new ArrayList<>();
     public static String trump;
     public static Color trumpColor;
     public static int proposedBid = 0;
@@ -159,24 +159,22 @@ public class Euchre {
             trump = null;
         }
         //Win conditionals
+        JLabel winningLabel;
         if (team1Score > team2Score) {
-            JLabel winningLabel = new JLabel("Team 1 wins! \n Team 1 score: " + team1Score + " \n Team 2 score: " + team2Score);
+            winningLabel = new JLabel("Team 1 wins! \n Team 1 score: " + team1Score + " \n Team 2 score: " + team2Score);
             winningLabel.setFont(new Font("Arial", Font.BOLD, 18));
             winningLabel.setOpaque(true);
             winningLabel.setBackground(Color.GREEN);
-            winningLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            winningLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            trickPanel.add(winningLabel);
         } else {
-            JLabel winningLabel = new JLabel("Team 2 wins! \n Team 1 score: " + team1Score + " \n Team 2 score: " + team2Score);
+            winningLabel = new JLabel("Team 2 wins! \n Team 1 score: " + team1Score + " \n Team 2 score: " + team2Score);
             winningLabel.setFont(new Font("Arial", Font.BOLD, 18));
             winningLabel.setOpaque(true);
             winningLabel.setBackground(Color.RED);
-            winningLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            winningLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            trickPanel.add(winningLabel);
         }
-    
+        winningLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        winningLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        trickPanel.add(winningLabel);
+
         gui.revalidate();
         gui.repaint();
     }
@@ -302,13 +300,13 @@ public class Euchre {
     }
 
     /**
-     * Goes though each players hand and sets the left bar to the correct card.
+     * Goes through each players hand and sets the left bar to the correct card.
      */
     public static void setLeftBar(){
         player1.setTrumpColor();
         for(Player player : players){
             for(Card card : player.getHand()){
-                if(card.getColor().equals(trumpColor) && card.getIntRank() == 11 && card.getSuit() != trump){
+                if(card.getColor().equals(trumpColor) && card.getIntRank() == 11 && !Objects.equals(card.getSuit(), trump)){
                     card.setLeftBar(true);
                 }
             }
@@ -343,7 +341,7 @@ public class Euchre {
         for(Card card: trick){
             System.out.println(card.getRank() + " of " + card.getSuit() + " Value: " + card.getValue());
         }
-        System.out.println(winningPlayer.getName() + " won the trick with the " + highest.getRank() + " of " + highest.getSuit() + "");
+        System.out.println(winningPlayer.getName() + " won the trick with the " + highest.getRank() + " of " + highest.getSuit());
         trick.clear();
         playerTurn = winningPlayer.getIndex();
         gui.revalidate();
@@ -478,7 +476,7 @@ public class Euchre {
         String offSuitColorHex = String.format("#%02x%02x%02x", offSuitColor.getRed(), offSuitColor.getGreen(), offSuitColor.getBlue());
         String onSuitColorHex = String.format("#%02x%02x%02x", onSuitColor.getRed(), onSuitColor.getGreen(), onSuitColor.getBlue());
         String trumpCardColorHex = String.format("#%02x%02x%02x", trumpCardColor.getRed(), trumpCardColor.getGreen(), trumpCardColor.getBlue());
-        
+
         // Help Text Area
         JEditorPane helpText = new JEditorPane();
         helpText.setContentType("text/html");
@@ -504,14 +502,15 @@ public class Euchre {
         helpPanel.add(rulesLabel, gbc);
     
         // Rules Text Area
-        JTextArea rulesText = new JTextArea("1. Each player is dealt six cards.\n" +
-                                                 "2. The player to the left of the dealer makes the first bid. (Bot 3 is the first dealer)\n" +
-                                                 "3. Bidding continues clockwise until everyone bids.\n" +
-                                                 "4. The highest bidder chooses the trump suit.\n" +
-                                                 "5. Players must follow suit if possible; otherwise, they may play any card.\n" +
-                                                 "6. The player who plays the highest card wins the trick.\n" +
-                                                 "7. The winner of the trick leads to the next trick.\n" +
-                                                 "8. The game continues until one team reaches a score of 32 points.");
+        JTextArea rulesText = new JTextArea("""
+                1. Each player is dealt six cards.
+                2. The player to the left of the dealer makes the first bid. (Bot 3 is the first dealer)
+                3. Bidding continues clockwise until everyone bids.
+                4. The highest bidder chooses the trump suit.
+                5. Players must follow suit if possible; otherwise, they may play any card.
+                6. The player who plays the highest card wins the trick.
+                7. The winner of the trick leads to the next trick.
+                8. The game continues until one team reaches a score of 32 points.""");
         rulesText.setEditable(false);
         rulesText.setLineWrap(true);
         rulesText.setWrapStyleWord(true);
@@ -531,15 +530,16 @@ public class Euchre {
         helpPanel.add(howToPlayLabel, gbc);
     
         // Terms TextArea
-        JTextArea usefulTerms = new JTextArea("Trump: The suit chosen by the highest bidder to be the trump suit for the round. They are the higest cards with the exception of the left bar.\n" +
-                                             "Suit: The category of a card, such as Hearts, Diamonds, Clubs, or Spades.\n" +
-                                             "Bid: The number of points a player bids to win the round.\n" +
-                                             "Trick: A round of play consisting of four cards played by each player in turn.\n" +
-                                             "Score: The number of tricks the team has won. If a bid is not fulfiled then that many points are subtracted.\n" +
-                                             "Round: A rounds ends when all 24 cards are layed or when all six tricks are played." + 
-                                             "Left bar: The jack of the same color as trump, but not the trump suit. Has the second highest value and now counts as the same suit as trump." + 
-                                             "Right bar: The jack of the trump suit. Has the highest value" + 
-                                             "Team: The player opposite you at the table. Player1 and Bot2 are a team and bots 1 and 3 are a team.");
+        JTextArea usefulTerms = new JTextArea("""
+                Trump: The suit chosen by the highest bidder to be the trump suit for the round. They are the highest cards with the exception of the left bar.
+                Suit: The category of a card, such as Hearts, Diamonds, Clubs, or Spades.
+                Bid: The number of points a player bids to win the round.
+                Trick: A round of play consisting of four cards played by each player in turn.
+                Score: The number of tricks the team has won. If a bid is not fulfilled then that many points are subtracted.
+                Round: A rounds ends when all 24 cards are played or when all six tricks are played.\
+                Left bar: The jack of the same color as trump, but not the trump suit. Has the second highest value and now counts as the same suit as trump.\
+                Right bar: The jack of the trump suit. Has the highest value\
+                Team: The player opposite you at the table. Player1 and Bot2 are a team and bots 1 and 3 are a team.""");
         usefulTerms.setEditable(false);
         usefulTerms.setLineWrap(true);
         usefulTerms.setWrapStyleWord(true);
@@ -559,14 +559,15 @@ public class Euchre {
         helpPanel.add(howWorkLabel, gbc);
 
         // Terms TextArea
-        JTextArea howWork = new JTextArea("The game starts by showing you your hand in the bottom and asking for a bid.\n" +
-                                             "Select your bid and click the bid button.\n" +
-                                             "The bots will all place their bids and if you have the highest bid, you will be asked which suit you want to be trump.\n" +
-                                             "For the first round you wil be the first to lay a card. You wil know when it is your turn because the card buttons will be enabled.\n" +
-                                             "The game will highlight the player who is winning the trick. If it's green then your team is winning the trick. If it's red the other team is winning it.\n" +
-                                             "After all the players lay their cards, the game will automaticly score the trick.\n" +
-                                             "After all the cards from your hand are played the game will add the points to each team accordingly and start the next round." + 
-                                             "The game loop will continue until one team reaches 32 points.");
+        JTextArea howWork = new JTextArea("""
+                The game starts by showing you your hand in the bottom and asking for a bid.
+                Select your bid and click the bid button.
+                The bots will all place their bids and if you have the highest bid, you will be asked which suit you want to be trump.
+                For the first round you wil be the first to lay a card. You wil know when it is your turn because the card buttons will be enabled.
+                The game will highlight the player who is winning the trick. If it's green then your team is winning the trick. If it's red the other team is winning it.
+                After all the players lay their cards, the game will automatically score the trick.
+                After all the cards from your hand are played the game will add the points to each team accordingly and start the next round.\
+                The game loop will continue until one team reaches 32 points.""");
         howWork.setEditable(false);
         howWork.setLineWrap(true);
         howWork.setWrapStyleWord(true);
@@ -651,7 +652,7 @@ public class Euchre {
     public static void dealCards() {
         int j =  0;
         for(Player player: players){
-            ArrayList<Card> tempHand = new ArrayList<Card>();
+            ArrayList<Card> tempHand = new ArrayList<>();
             for(int i = j; i < j +  6; i++){
                 Card card = deck.get(i);
                 tempHand.add(card);
@@ -683,7 +684,7 @@ public class Euchre {
     public static void createButton(Card card) {
         JButton button = new JButton(card.getRank() + " of " + card.getSuit());
         button.setForeground(Color.WHITE);
-        Color color = null;
+        Color color;
         if(showHelp.isSelected()){
             //updateHelpPanel();
             color = validCard(card);
@@ -715,7 +716,7 @@ public class Euchre {
      * @return
      */
     public static Color validCard(Card card){
-        if(trick.size() != 0){
+        if(!trick.isEmpty()){
             if((card.getSuit().equals(trick.get(0).getSuit()) && !card.isLeftBar()) || (card.isLeftBar() && !card.getSuit().equals(trick.get(0).getSuit()) && card.getColor().equals(trick.get(0).getColor()))){
                 return onSuitColor;
             } else if(card.getSuit().equals(trump) || card.isLeftBar()){
@@ -746,7 +747,7 @@ public class Euchre {
     public static void reset(){
         roundOver = false;
         newRound = true;
-        playerTurn = (0 + roundNum) % players.size();
+        playerTurn = (roundNum) % players.size();
         bids = 0;
         winningPlayer = null;
         highestPlayer = null;

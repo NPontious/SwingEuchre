@@ -12,15 +12,15 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 
 public class Player {
-    private String name;
+    private final String name;
     private int score;
-    private int index;
+    private final int index;
     private int bid;
     private boolean hasTrick;
     protected boolean hasBid;
     protected boolean alone;
 
-    private ArrayList<Card> hand = new ArrayList<Card>();
+    private ArrayList<Card> hand = new ArrayList<>();
 
     /**
      * Creates a player with a name and index
@@ -37,13 +37,7 @@ public class Player {
     public int getIndex() {
         return index;
     }
-    /**
-     * Adds a card to the player's hand
-     * @param card
-     */
-    public void addCard(Card card) {
-        hand.add(card);
-    }
+
     /**
      * Removes a card to the player's hand
      * @param card
@@ -85,7 +79,7 @@ public class Player {
     }
     /**
      * Sets the player's bid
-     * @param score
+     * @param bid
      */
     public void setBid(int bid) {
         this.bid = bid;
@@ -117,7 +111,7 @@ public class Player {
         this.hasTrick = hasTrick;
     }
     /**
-     * @return wether the player is winning the tick or not
+     * @return whether the player is winning the tick or not
      */
     public boolean getHasTrick(){
         return hasTrick;
@@ -134,9 +128,9 @@ public class Player {
      * Sets the trumpColor based on the trump that was chosen
      */
     public void setTrumpColor(){
-        if(Euchre.trump == "Hearts" || Euchre.trump == "Diamonds"){
+        if(Euchre.trump.equals("Hearts") || Euchre.trump.equals("Diamonds")){
             Euchre.trumpColor = Color.RED;
-        } else if(Euchre.trump == "Clubs" || Euchre.trump == "Spades") {
+        } else if(Euchre.trump.equals("Clubs") || Euchre.trump.equals("Spades")) {
             Euchre.trumpColor = Color.BLACK;
         }
     }
@@ -161,12 +155,12 @@ public class Player {
             bidListModel.addElement(6);
         }
         //bidListModel.addElement(12);
-    
+
         JList<Integer> bidList = new JList<>(bidListModel);
         JButton bidButton = new JButton("Bid");
         bidButton.addActionListener(e -> {
             if (bidList.getSelectedValue() != null) {
-                setBid((Integer) bidList.getSelectedValue());
+                setBid(bidList.getSelectedValue());
                 Euchre.gui.remove(Euchre.bidPanel);
                 Euchre.bids++;
                 Euchre.bidPlaced = true;
@@ -175,18 +169,18 @@ public class Player {
                 hasBid = true;
             }
         });
-    
+
         Font bidFont = new Font("Arial", Font.BOLD, 13);
         bidList.setFont(bidFont);
-    
+
         Euchre.bidPanel.setBackground(Euchre.tableGreenColor);
         Euchre.bidPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    
+
         bidList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    
+
         Euchre.bidPanel.add(bidButton);
         Euchre.bidPanel.add(bidList);
-    
+
         // JTextArea bidOptionsText = new JTextArea("0: Pass\n12: Going alone");
         // bidOptionsText.setFont(bidFont);
         // bidOptionsText.setEditable(false);
@@ -201,7 +195,7 @@ public class Player {
                 playerBids.append(player.getName() + ": " + player.getBid() + "\n");
             }
         }
-        if(playerBids.getText().equals("")){
+        if(playerBids.getText().isEmpty()){
             playerBids.append("You're the first bidder.");
         }
         playerBids.setFont(bidFont);
@@ -214,13 +208,13 @@ public class Player {
         Euchre.gui.repaint();
     }
     /**
-     * Creates the trump sleection panel and sets trump
+     * Creates the trump selection panel and sets trump
      */
     public void selectTrump(){
         JList<String> suitList = new JList<>(new String[]{"Hearts", "Diamonds", "Clubs", "Spades"});
         JButton trumpButton = new JButton("Select Trump");
         trumpButton.addActionListener(e -> {
-            Euchre.trump = ((String)suitList.getSelectedValue());
+            Euchre.trump = suitList.getSelectedValue();
             Euchre.gui.remove(Euchre.trumpPanel);
             System.out.println("Trump is " + Euchre.trump);
         });

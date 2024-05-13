@@ -3,11 +3,10 @@ package EuchreGame;
 import java.awt.Color;
 
 public class Card {
-    private String suit;
-    private String rank;
-    private Color color;
+    private final String suit;
+    private final String rank;
+    private final Color color;
     private int index;
-    private int value;
     private boolean isLeftBar = false;
 
     /**
@@ -35,36 +34,36 @@ public class Card {
      * @return the value of the card based on trump, suit, and rank
      */
     public int getValue() {
-        if(suit == Euchre.trump){
-            switch (rank) {
-                case "9": value = 6; break;
-                case "10": value = 7; break;
-                case "Jack": value = 12; break;
-                case "Queen": value = 8; break;
-                case "King": value = 9; break;
-                case "Ace": value = 10; break;
-                default: value = 0; break;
-            }
+        int value;
+        if(suit.equals(Euchre.trump)){
+            value = switch (rank) {
+                case "9" -> 6;
+                case "10" -> 7;
+                case "Jack" -> 12;
+                case "Queen" -> 8;
+                case "King" -> 9;
+                case "Ace" -> 10;
+                default -> 0;
+            };
             return value;
         } else if(Euchre.trumpColor == color) {
             if(Euchre.trick.get(0).getSuit().equals(suit)){
-                switch (rank) {
-                    case "9": value = 0; break;
-                    case "10": value = 1; break;
-                    case "Jack": value = 11; break;
-                    case "Queen": value = 3; break;
-                    case "King": value = 4; break;
-                    case "Ace": value = 5; break;
-                    default: value = 0; break;
-                }
-                return value;
+                value = switch (rank) {
+                    case "10" -> 1;
+                    case "Jack" -> 11;
+                    case "Queen" -> 3;
+                    case "King" -> 4;
+                    case "Ace" -> 5;
+                    default -> 0;
+                };
             } else {
-                switch (rank) {
-                    case "Jack": value = 11; break;
-                    default: value = 0; break;
+                if (rank.equals("Jack")) {
+                    value = 11;
+                } else {
+                    value = 0;
                 }
-                return value;
             }
+            return value;
         } else if(Euchre.trick.get(0).getSuit().equals(suit)){
             value = getIntRank() - 9;
             return value;
@@ -102,15 +101,15 @@ public class Card {
      * @return the rank of the card in int form
      */
     public int getIntRank() {
-        switch (rank) {
-            case "9": return 9;
-            case "10": return 10;
-            case "Jack": return 11;
-            case "Queen": return 12;
-            case "King": return 13;
-            case "Ace": return 14;
-            default: return 0;
-        }
+        return switch (rank) {
+            case "9" -> 9;
+            case "10" -> 10;
+            case "Jack" -> 11;
+            case "Queen" -> 12;
+            case "King" -> 13;
+            case "Ace" -> 14;
+            default -> 0;
+        };
     }
     /**
      * Sets whether the card is the left bar or not

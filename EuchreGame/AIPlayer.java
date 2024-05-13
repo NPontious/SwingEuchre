@@ -26,14 +26,10 @@ public class AIPlayer extends Player {
         Card pickedCard = null;
         if(!Euchre.trick.isEmpty()){
             for(Card card : getHand()){
-                if(card.getSuit() == Euchre.trick.get(0).getSuit()){
+                if(card.getSuit().equals(Euchre.trick.get(0).getSuit())){
                     hasOnSuit = true;
                     break;
-                } else if(card.isLeftBar() && card.getColor().equals(Euchre.trick.get(0).getColor())) {
-                    hasOnSuit = true;
-                } else {
-                    hasOnSuit = false;
-                }
+                } else hasOnSuit = card.isLeftBar() && card.getColor().equals(Euchre.trick.get(0).getColor());
             }
         }
     
@@ -112,7 +108,7 @@ public class AIPlayer extends Player {
             }
         }
         for(int i = 0; i < suits.length; i++){
-            if(suits[i] > suits[maxSuit]){
+            if(suits[i] >= suits[maxSuit]){
                 maxSuit = i;
                 switch (i) {
                     case 0:
