@@ -75,6 +75,7 @@ public class AIPlayer extends Player {
         }
     
         Euchre.trick.add(pickedCard);
+        Euchre.playeCards.add(pickedCard);
         getHand().remove(pickedCard);
 
         Euchre.gui.revalidate();

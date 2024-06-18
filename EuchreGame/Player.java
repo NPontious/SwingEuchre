@@ -43,6 +43,7 @@ public class Player {
      * @param card
      */
     public void removeCard(Card card) {
+        Euchre.playeCards.add(card);
         hand.remove(card);
     }
     /**

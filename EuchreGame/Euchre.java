@@ -10,7 +10,10 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -29,6 +32,7 @@ public class Euchre {
     //A disgusting amount of static variables
     public static final int NUM_PLAYERS = 4;
     public static JCheckBox showHelp = new JCheckBox("Learning Mode");
+    public static JCheckBox exportBox = new JCheckBox("Export Mode");
     public static JPanel handPanel = new JPanel(new GridLayout(1,6));
     public static JPanel scorePanel = new JPanel(new GridLayout(1,7));
     public static JPanel trickPanel = new JPanel(new GridBagLayout());
@@ -38,6 +42,7 @@ public class Euchre {
     public static GUI gui = new GUI();
     public static ArrayList<Card> trick = new ArrayList<>();
     public static ArrayList<Card> deck = new ArrayList<>();
+    public static ArrayList<Card> playeCards = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
     public static String trump;
     public static Color trumpColor;
@@ -207,6 +212,10 @@ public class Euchre {
                     Euchre.players.get(best.getIndex()).setHasTrick(true);
                 }
             }
+            // Exporting player's hand and played cards to a text file
+            if(exportBox.isSelected()){
+                export();
+            }
             switch(playerTurn){
                 case 0:
                     if(players.contains(player1)){
@@ -218,6 +227,8 @@ public class Euchre {
                         handPanel.revalidate();
                         handPanel.repaint();
                         handButtons(true);
+                        System.out.println(players.get(0).getHand());
+                        System.out.println(playeCards.toString());
                         while(!cardPlayed){
                             Thread.sleep(1);
                         }
@@ -251,6 +262,39 @@ public class Euchre {
                     }
                     break;
             }
+        }
+    }
+
+    /**
+     * Exports the game data to output.txt
+     */
+    public static void export(){
+        try (PrintWriter writer = new PrintWriter(new File("output" + playerTurn + ".txt"), "UTF-8")) { // Correctly close the resource declaration with a parenthesis
+            writer.println("Player's Hand:");
+            for (Card card : players.get(playerTurn).getHand()) {
+                writer.println(card.getRank() + " of " + card.getSuit());
+            }
+            writer.println("\nPlayed Cards:");
+            for (Card card : playeCards) {
+                writer.println(card.getRank() + " of " + card.getSuit());
+            }
+            writer.println("\nCards in trick:");
+            for (Card card : trick) {
+                writer.println(card.getRank() + " of " + card.getSuit());
+            }
+            writer.println("\nTeamate have trick:");
+            Card winning = winningCard();
+            if(winning != null){
+                writer.println(winning.getIndex() % 2 == playerTurn % 2);
+            } else {
+                writer.println(false);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Encoding not supported.");
+            e.printStackTrace();
         }
     }
 
@@ -380,6 +424,16 @@ public class Euchre {
         roundNum++;
     }
 
+    public static Card winningCard(){
+        Card winning = null;
+        for (Card card : trick) {
+            if (winning == null || card.getValue() > winning.getValue()) {
+                winning = card;
+            }
+        }
+        return winning;
+    }
+
     /**
      * Updates the trickPanel's data and redraws it.
      */
@@ -387,20 +441,12 @@ public class Euchre {
         trickPanel.removeAll();
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-    
-        Card winning = null;
-        for (Card card : trick) {
-            if (winning == null || card.getValue() > winning.getValue()) {
-                winning = card;
-            }
-        }
-    
         int row = 0;
         for (Card card : trick) {
             if(highestPlayer.getBid() != 12){
             JLabel playerLabel = new JLabel(players.get(card.getIndex()).getName());
             playerLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            if (card == winning) {
+            if (card == winningCard()) {
                 switch(card.getIndex() % 2){
                     case(0):
                         playerLabel.setForeground(Color.GREEN);
@@ -451,6 +497,16 @@ public class Euchre {
         GridBagConstraints gbc = new GridBagConstraints();
 
         helpPanel.setBackground(tableGreenColor);
+
+        // Export mode Checkbox
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        //exportBox.setSelected(true);
+        exportBox.setBackground(tableGreenColor);
+        exportBox.setForeground(Color.WHITE);
+        helpPanel.add(exportBox, gbc);
     
         // Show Help Checkbox
         gbc.gridx = 0;
@@ -753,6 +809,7 @@ public class Euchre {
         highestPlayer = null;
         trick.clear();
         deck.clear();
+        playeCards.clear();
         for(Player player: players){
             player.resetPlayer();
         }
