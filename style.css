@@ -1,0 +1,44 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.font-serif {
+    font-family: 'Merriweather', serif;
+}
+
+/* Custom color from the game's green background */
+.bg-euchre-green {
+    background-color: #307353;
+}
+.text-euchre-green {
+    color: #307353;
+}
+.border-euchre-green {
+    border-color: #307353;
+}
+
+
+.nav-link {
+    @apply text-slate-600 font-medium hover:text-euchre-green transition-colors relative;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: #307353;
+    transition: width 0.3s;
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.section-title {
+    @apply text-2xl font-bold text-slate-900 font-serif pb-2 border-b-4 border-euchre-green inline-block;
+}
+
+.card-image {
+    @apply bg-white p-1 rounded-md shadow-md hover:shadow-xl hover:-translate-y-2 transform transition-all duration-300;
+}

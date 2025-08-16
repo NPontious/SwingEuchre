@@ -1,73 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Euchre Game</title>
+    <title>SwingEuchre | A Java Card Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <h1>Euchre Game</h1>
-        <p>A classic card game implemented in Java Swing.</p>
-    </header>
+<body class="bg-slate-100 text-slate-800">
 
-    <main>
-        <section id="game-rules">
-            <h2>Game Start & Rules</h2>
-            <p>This section provides an overview of the rules for playing the popular card game Euchre. The game is played in rounds, and each round has its own set of rules and objectives. There are four players (one human and three computer-controlled players).</p>
-            <img src="Rules/EuchreStart.png" alt="Euchre Game Start Screen">
-        </section>
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto max-w-6xl px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold tracking-wider text-slate-900 font-serif">SwingEuchre</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#rules" class="nav-link">Rules</a>
+                    <a href="#download" class="nav-link">How to Play</a>
+                    <a href="https://github.com/NPontious/swingeuchre" target="_blank" rel="noopener noreferrer" class="bg-slate-800 text-white px-5 py-2 rounded-md hover:bg-slate-900 transition-all shadow-md flex items-center space-x-2">
+                        <i class="fab fa-github"></i>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <section id="game-rounds">
-            <h2>Game Rounds</h2>
-            <p>During the game rounds, players take turns playing their cards. The objective is to win as many tricks as possible.</p>
-            <img src="Rules/EuchreRound.png" alt="Euchre Game Round">
-        </section>
+    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
 
-        <section id="how-to-play">
-            <h2>How to Play</h2>
-            <p>To play the game, you will need to have Java installed on your computer. You can then download the compiled JAR file from the releases section of the GitHub repository and run it.</p>
-            <ol>
-                <li><strong>Download Java:</strong> If you don't have it, download and install the latest version of the Java Runtime Environment (JRE).</li>
-                <li><strong>Download the Game:</strong> Go to the repository's "Releases" page and download the latest `.jar` file.</li>
-                <li><strong>Run the Game:</strong> Double-click the downloaded `.jar` file to start the game.</li>
-            </ol>
-        </section>
+        <header id="about" class="py-16 md:py-24 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight font-serif tracking-wide">
+                    A Classic Card Game, Reimagined in Java.
+                </h1>
+                <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
+                    SwingEuchre is a fully-featured desktop version of the beloved trick-taking card game, complete with a clean graphical interface and smart AI players.
+                </p>
+                <div class="mt-10">
+                    <img src="Rules/EuchreStart.png" alt="SwingEuchre Game Screenshot" class="rounded-xl shadow-2xl mx-auto border-4 border-white">
+                </div>
+            </div>
+        </header>
 
-        <section id="card-gallery">
-            <h2>Card Gallery</h2>
-            <div class="card-grid">
-                <img src="Textures/spades_ace.png" alt="Ace of Spades">
-                <img src="Textures/spades_king.png" alt="King of Spades">
-                <img src="Textures/spades_queen.png" alt="Queen of Spades">
-                <img src="Textures/spades_jack.png" alt="Jack of Spades">
-                <img src="Textures/spades_10.png" alt="10 of Spades">
-                <img src="Textures/spades_9.png" alt="9 of Spades">
-                <img src="Textures/hearts_ace.png" alt="Ace of Hearts">
-                <img src="Textures/hearts_king.png" alt="King of Hearts">
-                <img src="Textures/hearts_queen.png" alt="Queen of Hearts">
-                <img src="Textures/hearts_jack.png" alt="Jack of Hearts">
-                <img src="Textures/hearts_10.png" alt="10 of Hearts">
-                <img src="Textures/hearts_9.png" alt="9 of Hearts">
-                <img src="Textures/diamonds_ace.png" alt="Ace of Diamonds">
-                <img src="Textures/diamonds_king.png" alt="King of Diamonds">
-                <img src="Textures/diamonds_queen.png" alt="Queen of Diamonds">
-                <img src="Textures/diamonds_jack.png" alt="Jack of Diamonds">
-                <img src="Textures/diamonds_10.png" alt="10 of Diamonds">
-                <img src="Textures/diamonds_9.png" alt="9 of Diamonds">
-                <img src="Textures/clubs_ace.png" alt="Ace of Clubs">
-                <img src="Textures/clubs_king.png" alt="King of Clubs">
-                <img src="Textures/clubs_queen.png" alt="Queen of Clubs">
-                <img src="Textures/clubs_jack.png" alt="Jack of Clubs">
-                <img src="Textures/clubs_10.png" alt="10 of Clubs">
-                <img src="Textures/clubs_9.png" alt="9 of Clubs">
+        <section id="rules" class="py-16">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 class="section-title">Game Rules</h2>
+                    <ul class="mt-6 space-y-4 list-decimal list-inside text-slate-600">
+                        <li>Each player is dealt six cards.</li>
+                        <li>Bidding proceeds clockwise, starting from the player to the left of the dealer.</li>
+                        <li>The highest bidder chooses the trump suit for the round.</li>
+                        <li>Players must follow the lead suit if they can.</li>
+                        <li>The player with the highest-value card wins the trick and leads the next one.</li>
+                        <li>The game continues until one team reaches a score of 32 points.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                     <h2 class="section-title">Useful Terms</h2>
+                     <div class="mt-6 space-y-4 text-slate-600">
+                         <p><strong>Trump:</strong> The suit chosen by the high bidder, which outranks all other suits.</p>
+                         <p><strong>Trick:</strong> A round of play where each player plays one card.</p>
+                         <p><strong>Bower:</strong> The Jack of the trump suit (Right Bower) and the other Jack of the same color (Left Bower) are the two most powerful cards.</p>
+                     </div>
+                </div>
             </div>
         </section>
-    </main>
 
-    <footer>
-        <p>Created by [Your Name/Username]</p>
-    </footer>
+        <section id="download" class="py-16">
+            <h2 class="text-3xl font-bold mb-10 text-center text-slate-900 font-serif">Get Started in Minutes</h2>
+            <div class="max-w-3xl mx-auto bg-white p-10 rounded-lg shadow-xl text-center">
+                 <p class="text-slate-600 mb-8">Ready to play? Since this is a Java desktop application, you'll need to run it on your computer. Follow these simple steps:</p>
+                <ol class="space-y-4 text-left inline-block">
+                    <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-euchre-green text-xl"></i><span><strong>Download Java:</strong> Make sure you have the Java Runtime Environment (JRE) installed.</span></li>
+                    <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-euchre-green text-xl"></i><span><strong>Download the Game:</strong> Grab the latest `.jar` file from the releases page.</span></li>
+                    <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-euchre-green text-xl"></i><span><strong>Run the Game:</strong> Simply double-click the downloaded file to start playing!</span></li>
+                </ol>
+                <div class="mt-10">
+                    <a href="https://github.com/NPontious/swingeuchre/releases" class="bg-euchre-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-800 transition-all shadow-lg text-lg inline-block">
+                        <i class="fas fa-download mr-2"></i> Download from Releases
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="card-gallery" class="py-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-slate-900 font-serif">The Deck</h2>
+             <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-4">
+                <img src="Textures/spades_ace.png" alt="Ace of Spades" class="card-image">
+                <img src="Textures/spades_king.png" alt="King of Spades" class="card-image">
+                <img src="Textures/spades_queen.png" alt="Queen of Spades" class="card-image">
+                <img src="Textures/spades_jack.png" alt="Jack of Spades" class="card-image">
+                <img src="Textures/spades_10.png" alt="10 of Spades" class="card-image">
+                <img src="Textures/spades_9.png" alt="9 of Spades" class="card-image">
+                <img src="Textures/hearts_ace.png" alt="Ace of Hearts" class="card-image">
+                <img src="Textures/hearts_king.png" alt="King of Hearts" class="card-image">
+                <img src="Textures/hearts_queen.png" alt="Queen of Hearts" class="card-image">
+                <img src="Textures/hearts_jack.png" alt="Jack of Hearts" class="card-image">
+                <img src="Textures/hearts_10.png" alt="10 of Hearts" class="card-image">
+                <img src="Textures/hearts_9.png" alt="9 of Hearts" class="card-image">
+                <img src="Textures/diamonds_ace.png" alt="Ace of Diamonds" class="card-image">
+                <img src="Textures/diamonds_king.png" alt="King of Diamonds" class="card-image">
+                <img src="Textures/diamonds_queen.png" alt="Queen of Diamonds" class="card-image">
+                <img src="Textures/diamonds_jack.png" alt="Jack of Diamonds" class="card-image">
+                <img src="Textures/diamonds_10.png" alt="10 of Diamonds" class="card-image">
+                <img src="Textures/diamonds_9.png" alt="9 of Diamonds" class="card-image">
+                <img src="Textures/clubs_ace.png" alt="Ace of Clubs" class="card-image">
+                <img src="Textures/clubs_king.png" alt="King of Clubs" class="card-image">
+                <img src="Textures/clubs_queen.png" alt="Queen of Clubs" class="card-image">
+                <img src="Textures/clubs_jack.png" alt="Jack of Clubs" class="card-image">
+                <img src="Textures/clubs_10.png" alt="10 of Clubs" class="card-image">
+                <img src="Textures/clubs_9.png" alt="9 of Clubs" class="card-image">
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-6 border-t border-slate-200">
+            <p class="text-slate-500">A project by Nicholas Pontious. Built with Java Swing.</p>
+        </footer>
+
+    </div>
 </body>
 </html>
